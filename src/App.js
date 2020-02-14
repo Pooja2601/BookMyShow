@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import axios from 'axios';
 import {
   ReactiveBase,
   DataSearch,
@@ -20,8 +19,12 @@ class App extends Component {
     this.state = {
       isClicked: false,
       message: "🔬Show Filters",
-      data:[]
+      data:[],
     };
+  }
+  handleLibrary(data){
+// this.state.library.push(data)
+    // this.setState({library:result})
   }
 
   handleClick() {
@@ -31,9 +34,9 @@ class App extends Component {
     });
   }
   componentDidMount(){ 
-   fetch('https://in.bookmyshow.com/serv/getData?cmd=GETTRAILERS&mtype=cs')
+   fetch('http://www.omdbapi.com/?i=tt3896198&apikey=fb26476')
     .then(response=>response.json())
-    .then(data=>this.setState({data:data}))
+    .then(data=>console.log(data))
   }
   _renderObject() {
     const { data } = this.state
@@ -83,7 +86,6 @@ for (let i = 0; i < data.length; i++) {
             <div className="logo-container">
             <typography style={{fontFamily: 'cursive',fontSize:' xx-large'}}>MOVIE TRAILER</typography>
             </div>
-
             <div className="search-container">
               <DataSearch
                   componentId="mainSearch"
@@ -371,7 +373,7 @@ for (let i = 0; i < data.length; i++) {
               >
                 {({ data }) => (
                     <ReactiveList.ResultCardsWrapper>
-                      {data.map(item => (
+                      {data.map((item,i )=> (
                           <div
                               style={{ marginRight: "15px" }}
                               className="main-description"
@@ -380,6 +382,8 @@ for (let i = 0; i < data.length; i++) {
                               <a
                                   target="#"
                                   href={"http://www.imdb.com/title/" + item.imdb_id}
+                                  onClick={this.handleLibrary(item.imdb_id)}
+                                  key={i}
                               >
                                 <div className="img">
                                   <img
